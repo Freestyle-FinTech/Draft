@@ -5,3 +5,5 @@
 # pysysql - database for mysql database
 # tkinter.md - to make a graphical user interface
 # review "environment variables" from github repository
+
+Just trying to get to update new git repository for Draft Twitter_analysis
