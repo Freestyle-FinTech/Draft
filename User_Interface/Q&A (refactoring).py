@@ -1,6 +1,7 @@
-import pandas as pd
-test = pd.read_excel(r'~/Documents/nyu-info-2335-70-201706/exercises/pandas-practice/jeter_stats.xlsx')
-print(test)
+#input username/ answers and get the score for risk tolerance
+# import pandas as pd
+# test = pd.read_excel(r'~/Documents/nyu-info-2335-70-201706/exercises/pandas-practice/jeter_stats.xlsx')
+# print(test)
 
 def greeting():
     print("""
@@ -24,17 +25,6 @@ def try_function():
 def interface2():
     print("How old are you?")
     try_function()
-#
-# def interface2():
-#     while True:
-#         age = input("How old are you: ")
-#         try:
-#             age = eval(age)
-#             if type(age) == int:
-#                 print(age)
-#                 break
-#         except:
-#             print("Please input a number.")
 
 def interface3():
     print("What is your annul income (berofe tax): ")
@@ -45,6 +35,21 @@ def interface4():
     try_function()
 
 def interface5():
+    choice = ["a","b","c"]
+    print("""
+    a. Maximize Return
+    b. Minimize Risk
+    c. Both Equally
+    """)
+    while True:
+        preference = input("Which above best describes your preference for this investment? (Enter the letter only): ")
+        if preference in choice:
+            print(preference)
+            break
+        else:
+            print("Please enter a valid choice!")
+
+def interface6():
     choice = ["a","b","c","d","e"]
     print("""
     a. Single income, no dependents
@@ -61,7 +66,7 @@ def interface5():
         else:
             print("Please enter a valid choice!")
 
-def interface6():
+def interface7():
     choice = ["a","b","c","d"]
     print("""
     a. Sell all of your investments
@@ -84,10 +89,9 @@ interface3()
 interface4()
 interface5()
 interface6()
+interface7()
 
 ###this is test part:
-# def enlarge(i):
-#     return i*100
 #
 # def run():
 #     greeting()
