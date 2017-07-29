@@ -19,19 +19,19 @@ RV will output a percentage which is a weight of each individual ETF in the cust
 ---
 
 ## Web Services and/or APIs:
-1.We would require a Twitter REST API https://dev.twitter.com/rest/public
-2.We would require a Bloomberg Developer API 3.https://www.bloomberg.com/professional/support/api-library/ or if that becomes difficult we will use Google Finance API (much more limited)
+* We would require a Twitter REST API https://dev.twitter.com/rest/public
+* We would require a Bloomberg Developer API  https://www.bloomberg.com/professional/support/api-library/ or if that becomes difficult we will use Google Finance API (much more limited)
 
 ## Third Party Packages
 
-1.psycpg2 https://pypi.python.org/pypi/psycopg2
-2.django  https://djangopackages.org/
-3.Tweepy  http://www.tweepy.org/
-4.pandas  http://pandas.pydata.org/
-5.cvxopt http://cvxopt.org/applications/index.html
-6.numpy http://www.numpy.org/
-7.operator
-8.matplotlib https://pypi.python.org/pypi/matplotlib
+* psycpg2 https://pypi.python.org/pypi/psycopg2
+* django  https://djangopackages.org/
+* Tweepy  http://www.tweepy.org/
+* pandas  http://pandas.pydata.org/
+* cvxopt http://cvxopt.org/applications/index.html
+* numpy http://www.numpy.org/
+* operator
+* matplotlib https://pypi.python.org/pypi/matplotlib
 
 ## Hardware
 
