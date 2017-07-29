@@ -6,3 +6,10 @@ Sentiment Analysis:
 http://www.geeksforgeeks.org/twitter-sentiment-analysis-using-python/
 Building a Twitter Analytical App:
 http://pythonforengineers.com/build-a-twitter-analytics-app-using-python/
+
+
+
+## Twitter: how to count a specific word
+
+https://marcobonzanini.com/2015/03/17/mining-twitter-data-with-python-part-3-term-frequencies/
+
