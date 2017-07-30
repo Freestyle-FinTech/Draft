@@ -32,6 +32,9 @@ RV will output a percentage which is a weight of each individual ETF in the cust
 * numpy http://www.numpy.org/
 * operator
 * matplotlib https://pypi.python.org/pypi/matplotlib
+* nltk http://www.nltk.org/book/
+* tkinter https://docs.python.org/3/library/tkinter.html#module-tkinter
+* beautifulsoup https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 
 ## Hardware
 
