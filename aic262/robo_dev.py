@@ -8,16 +8,12 @@
 #Twitter Keys#
 
 
-# Notes: Look at use of Classes, "class baseballTeam():"
-# Professor has put a list of different APIs on Notes/Software/APIs
-#beautifulsoup.md - used for scraping web pages
-# Psycopg - database postgress database
-# pysysql - database for mysql database
-# tkinter.md - to make a graphical user interface
-# review "environment variables" from github repository
-
 import os
 import tweepy
+import datetime
+import time
+import csv
+
 
 consumer_key = os.environ["TWITTER_API_KEY"]
 consumer_secret = os.environ["TWITTER_API_SECRET"]
@@ -38,8 +34,21 @@ user = api.me() # get information about the currently authenticated user
 tweets = api.user_timeline(screen_name=client_user, count=10, includerts=False)
 
 
+#Set parameters
+##keyword = "speaking", "@AIG", "@FourBlock", "RT"; #The desired keyword(s)
+#tweetsXiteration = 100; #Where 100 is the max
+#dateFrom = '2017-07-29'; ##Inclusive (YYYY-MM-DD)
+#dateTo = '2017-07-31'; #Exclusive (YYYY-MM-DD)
+#done = False; #Must be false
+
+##add timeline and not all
 calltweets=[]
 tweetxt=[]
+for tweet in tweets:
+    if (datetime.datetime.now() - tweet.created_at).days < 1:
+        print (len(calltweets))
+
+
 for tweet in tweets:
     calltweets.append(tweet)
 for tweet in tweets:
@@ -50,12 +59,41 @@ for tweet in tweetxt:
     print (tweet, "\n")
 
 
-##issue to csv to send for anlysis
+# Open/Create a file to append data
 
-##add timeline and not all
+csv_file_path = "tweets.csv"
+
+with open(csv_file_path, "r") as csv_file:
+    reader = csv.DictReader(csv_file)
+    for row in reader:
+        #print(row["id"], row["name"])
+        tweetxt.append(row)
+
+print(len(calltweets))
+
+#csvFile = open('tweets.csv', 'a')
+#Use csv Writer
+
+other_path = "tweets.csv"
+with open(other_path, "w", newline="") as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=["id","name","tweets"])
+    writer.writeheader()
+    for tweet in tweets:
+        writer.writerow(tweets)
+#csvWriter = csv.writer(csvFile)
+
+
+#with open('%s_tweets.csv' % screen_name, 'wb') as f:
+	#writer = csv.writer(f)
+	#writer.writerow(["id","created_at","text"])
+	#writer.writerows(outtweets)
+#pass
+#if __name__ == '__main__':
+	#pass in the username of the account you want to download
+	#get_all_tweets("J_tsar")
+
 
 # ISSUE REQUESTS
-##user = api.me() # get information about the currently authenticated user
 ##tweets = api.user_timeline() # get a list of tweets posted by the currently authenticated user
 ##youtweet = api.user_timeline(user_id="@TeamRobo2", count=10, includerts=False)
 ##costweets=[]# PARSE RESPONSES
