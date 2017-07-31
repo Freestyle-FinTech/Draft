@@ -1,4 +1,4 @@
-#testing codes2
+#Final Version Test
 
 
 #Windows Set environment variable (globally)
@@ -35,11 +35,10 @@ api = tweepy.API(auth)
 client_user = input("Enter your Twitter handle here (enter the handle immediately after the '@', but do not include the '@'): " +
     '\n',)
 user = api.me() # get information about the currently authenticated user
-#tweets = api.user_timeline() # get a list of tweets posted by the currently authenticated user
 tweets = api.user_timeline(screen_name=client_user, count=10, includerts=False)
 
 
-calltweets=[]# PARSE RESPONSES
+calltweets=[]
 tweetxt=[]
 for tweet in tweets:
     calltweets.append(tweet)
@@ -49,6 +48,11 @@ for tweet in tweets:
 print (len(calltweets))
 for tweet in tweetxt:
     print (tweet, "\n")
+
+
+##issue to csv to send for anlysis
+
+##add timeline and not all
 
 # ISSUE REQUESTS
 ##user = api.me() # get information about the currently authenticated user
