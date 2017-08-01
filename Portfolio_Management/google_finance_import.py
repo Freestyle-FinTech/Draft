@@ -43,18 +43,29 @@ start = str(date.today() - timedelta(days=Horizon)) #> '2017-07-09'
 end = str(date.today())
 response = data.DataReader(symbols, data_source, start, end)
 daily_closing_prices = response.ix["Close"] # ix() is a pandas DataFrame function
-print(daily_closing_prices.ix[0:5,0:5])
-
+print(daily_closing_prices)
+# print(daily_closing_prices.ix[0:5,0:5])
+# test=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
 # Header=list(daily_closing_prices.columns.values)
-# print(Header)
-#
+# print(list(daily_closing_prices[1:100]))
+
 # with conn:
 #     with conn.cursor() as cursor:
-#         sql_insert = "INSERT INTO etf_prices (emb, feny) VALUES (%s,%s)"
-#         cursor.execute(sql_insert,(int(daily_closing_prices.ix[0:5,0]),int(daily_closing_prices.ix[0:5,1])))
+#         cursor.execute("INSERT INTO test (mint) VALUES (%i)", (100))
+#
+#
 
-# #         >>> cur.execute("INSERT INTO test (num, data) VALUES (%s, %s)",
-# # ...      (100, "abc'def"))
+
+# with conn:
+#     with conn.cursor() as cursor:
+#         for i in Header:
+#             for j in (17):
+#                 cursor.execute("INSERT INTO etf_prices (i) VALUES (%s)", (test[j]))
+
+
+# sql_insert = "INSERT INTO etf_prices (i) VALUES (%s)", list(daily_closing_prices[i])
+# cursor.execute(sql_insert,(int(daily_closing_prices.ix[0:5,0]),int(daily_closing_prices.ix[0:5,1])))
+# # #
 # #
 #
 # cur.execute('INSERT INTO %s (day, elapsed_time, net_time, length, average_speed, geometry) VALUES (%s, %s, %s, %s, %s, %s)', (escaped_name, day, time_length, time_length_net, length_km, avg_speed, myLine_ppy))
