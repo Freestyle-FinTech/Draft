@@ -20,29 +20,26 @@ api = tweepy.API(auth)
 # ISSUE REQUESTS
 #client_user = input("Enter your Twitter handle" +
 #    '\n'+"(enter the handle immediately after the '@', but do not include the '@'): ",)
-user = api.me() # get information about the currently authenticated user
+#user = api.me() # get information about the currently authenticated user
 
-startDate = datetime.datetime(2017, 7, 1, 0, 0, 0)
-endDate =   datetime.datetime(2017, 7, 31, 0, 0, 0)
 
+fname = "Twitter_Analysis/twit_feed.csv"
 tweetxt=[]
-tweets = api.user_timeline(screen_name="Mr_DamienB", count=1000, includerts=False)
-
+tweets = api.home_timeline(count=1000, includerts=False)
+#startDate = datetime.datetime(2017, 7, 1, 0, 0, 0)
+#endDate =   datetime.datetime(2017, 8, 1, 0, 0, 0)
 for tweet in tweets:
-    if tweet.created_at < endDate and tweet.created_at > startDate:
-        tweetxt.append(tweet.text)
-print("YOU CALLED",len(tweetxt),"Tweets")
-#input("What word are you counting: ",)
+    tweetxt.append(tweet.text)
 
-#fname = "Twitter_Analysis/twit_feed.txt"
+# print tweets and save to csv file
+with open(fname, 'w', newline='', encoding='utf-8') as csvFile:
+    Writer = csv.writer(csvFile)
+    for tweet in tweetxt:
+        Writer.writerow([tweet])
 
+print("YOU HAVE PULLED",len(tweets), "TWEETS!")
 #for tweet in tweets:
 #    calltweets.append(tweet)
-#    tweetxt.append(tweet.text)
-
-#with open(fname, 'w') as out:
-#    out.write(word+": "+str(wordcount)+ '\n')
-
 #for tweet in tweets:
 #    created_on = tweet.created_at.strftime("%Y-%m-%d")
 #    print(" + ", tweet.id_str, created_on, tweet.text)
