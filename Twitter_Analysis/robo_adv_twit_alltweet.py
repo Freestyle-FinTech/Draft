@@ -16,12 +16,7 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 # INITIALIZE API CLIENT
 api = tweepy.API(auth)
-
 # ISSUE REQUESTS
-#client_user = input("Enter your Twitter handle" +
-#    '\n'+"(enter the handle immediately after the '@', but do not include the '@'): ",)
-#user = api.me() # get information about the currently authenticated user
-
 
 fname = "Twitter_Analysis/twit_feed.csv"
 tweetxt=[]
@@ -33,13 +28,10 @@ for tweet in tweets:
 
 # print tweets and save to csv file
 with open(fname, 'w', newline='', encoding='utf-8') as csvFile:
-    Writer = csv.writer(csvFile)
+    writer = csv.writer(csvFile)
     for tweet in tweetxt:
-        Writer.writerow([tweet])
+        writer.writerow([tweet])
 
 print("YOU HAVE PULLED",len(tweets), "TWEETS!")
-#for tweet in tweets:
-#    calltweets.append(tweet)
-#for tweet in tweets:
 #    created_on = tweet.created_at.strftime("%Y-%m-%d")
 #    print(" + ", tweet.id_str, created_on, tweet.text)
