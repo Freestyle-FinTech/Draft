@@ -28,11 +28,38 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 # ISSUE REQUESTS
-client_user = input("Enter your Twitter handle here (enter the handle immediately after the '@', but do not include the '@'): " +
-    '\n',)
-user = api.me() # get information about the currently authenticated user
-tweets = api.user_timeline(screen_name=client_user, count=10, includerts=False)
+startDate = datetime.datetime(2017, 7, 1, 0, 0, 0)
+endDate = datetime.datetime(2017, 7, 31, 0, 0, 0)
+#endDate = datetime.date.today()
 
+
+client_user = input("Enter your Twitter ID: " + '\n',)
+user = api.me() # get information about the currently authenticated user
+tweets = api.user_timeline(screen_name=client_user, includerts=False)
+
+
+tweets = []
+for tweet in tweets:
+    if tweet.created_at < endDate and tweet.created_at > startDate:
+        tweets.append(tweet.text)
+for tweet in tweets:
+    print (tweet, "\n")
+
+#calltweets=[]
+#tweetxt=[]
+#for tweet in tweets:
+#    calltweets.append(tweet)
+#for tweet in tweets:
+#    tweetxt.append(tweet.text)
+#print (len(calltweets))
+#for tweet in tweetxt:
+#    print (tweet, "\n")
+
+#tweets = []
+#for tweet in tweets:
+#    if tweet.created_at < endDate and tweet.created_at > startDate:
+#        tweets.append(tweet.text)
+#print (len(tweets))
 
 #Set parameters
 ##keyword = "speaking", "@AIG", "@FourBlock", "RT"; #The desired keyword(s)
@@ -41,56 +68,10 @@ tweets = api.user_timeline(screen_name=client_user, count=10, includerts=False)
 #dateTo = '2017-07-31'; #Exclusive (YYYY-MM-DD)
 #done = False; #Must be false
 
-##add timeline and not all
-calltweets=[]
-tweetxt=[]
-for tweet in tweets:
-    if (datetime.datetime.now() - tweet.created_at).days < 1:
-        print (len(calltweets))
 
 
-for tweet in tweets:
-    calltweets.append(tweet)
-for tweet in tweets:
-    tweetxt.append(tweet.text)
-
-print (len(calltweets))
-for tweet in tweetxt:
-    print (tweet, "\n")
 
 
-# Open/Create a file to append data
-
-csv_file_path = "tweets.csv"
-
-with open(csv_file_path, "r") as csv_file:
-    reader = csv.DictReader(csv_file)
-    for row in reader:
-        #print(row["id"], row["name"])
-        tweetxt.append(row)
-
-print(len(calltweets))
-
-#csvFile = open('tweets.csv', 'a')
-#Use csv Writer
-
-other_path = "tweets.csv"
-with open(other_path, "w", newline="") as csv_file:
-    writer = csv.DictWriter(csv_file, fieldnames=["id","name","tweets"])
-    writer.writeheader()
-    for tweet in tweets:
-        writer.writerow(tweets)
-#csvWriter = csv.writer(csvFile)
-
-
-#with open('%s_tweets.csv' % screen_name, 'wb') as f:
-	#writer = csv.writer(f)
-	#writer.writerow(["id","created_at","text"])
-	#writer.writerows(outtweets)
-#pass
-#if __name__ == '__main__':
-	#pass in the username of the account you want to download
-	#get_all_tweets("J_tsar")
 
 
 # ISSUE REQUESTS
