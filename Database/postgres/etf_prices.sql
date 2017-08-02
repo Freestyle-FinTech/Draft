@@ -1,0 +1,21 @@
+CREATE TABLE "public"."etf_prices" (
+    "date" date,
+    "emb" int,
+    "feny" int,
+    "iau" int,
+    "ite" int,
+    "mint" int,
+    "mub" int,
+    "scha" int,
+    "schh" int,
+    "schm" int,
+    "schx" int,
+    "vcit" int,
+    "vea" int,
+    "vglt" int,
+    "vnqi" int,
+    "vtip" int,
+    "vwo" int,
+    "vym" int,
+    PRIMARY KEY ("date")
+);

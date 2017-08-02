@@ -4,6 +4,8 @@
 
 import os
 import tweepy
+import csv
+import datetime
 
 consumer_key = os.environ["TWITTER_API_KEY"]
 consumer_secret = os.environ["TWITTER_API_SECRET"]
@@ -19,36 +21,27 @@ api = tweepy.API(auth)
 #client_user = input("Enter your Twitter handle" +
 #    '\n'+"(enter the handle immediately after the '@', but do not include the '@'): ",)
 user = api.me() # get information about the currently authenticated user
-tweets = api.user_timeline(screen_name="Mr_DamienB", count=10, includerts=False)
 
-#input("What word are you counting: ",)
+startDate = datetime.datetime(2017, 7, 1, 0, 0, 0)
+endDate =   datetime.datetime(2017, 7, 31, 0, 0, 0)
 
-count_words=("speaking", "@AIG", "@FourBlock", "RT")
-calltweets=[]# PARSE RESPONSES
 tweetxt=[]
-counted_words=[]
+tweets = api.user_timeline(screen_name="Mr_DamienB", count=1000, includerts=False)
 
 for tweet in tweets:
-    calltweets.append(tweet)
-    tweetxt.append(tweet.text)
+    if tweet.created_at < endDate and tweet.created_at > startDate:
+        tweetxt.append(tweet.text)
+print("YOU CALLED",len(tweetxt),"Tweets")
+#input("What word are you counting: ",)
 
-all_tweet_text = " ".join(tweetxt)
-tweet_words = all_tweet_text.split()
+#fname = "Twitter_Analysis/twit_feed.txt"
 
-for w in tweet_words:
-    for word in count_words:
-        if w == word:
-            counted_words.append(w)
+#for tweet in tweets:
+#    calltweets.append(tweet)
+#    tweetxt.append(tweet.text)
 
-cw_text = " ".join(counted_words)
-cw_words = cw_text.split()
-keywordfreq = [cw_words.count(w) for w in cw_words]
-
-print(cw_words, "\n", keywordfreq)
-#print ("\n","TWEET LOG FOR",len(tweets),"TWEETS:","\n")
-
-#for tweet in tweetxt:
-#    print (tweet, "\n")
+#with open(fname, 'w') as out:
+#    out.write(word+": "+str(wordcount)+ '\n')
 
 #for tweet in tweets:
 #    created_on = tweet.created_at.strftime("%Y-%m-%d")
