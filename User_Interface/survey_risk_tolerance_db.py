@@ -145,6 +145,10 @@ answers = [ ]
 new_answer = {"username": username,"age": age,"income": income,"investment": invest,"preference": preference,"household": household,"action": action}
 answers.append(new_answer)
 
+def risk_tolerance(age_adj, income_adj, invest_adj, q1, q2, q3):
+     return age_adj+income_adj+invest_adj+q1+q2+q3
+score = risk_tolerance(age_adj, income_adj, invest_adj, q1, q2, q3)
+
 with conn:
     with conn.cursor() as cursor:
         sql_query = "CREATE TABLE SURVEY (username text, age integer, income integer, invest integer, preference text, household text, action text);"
