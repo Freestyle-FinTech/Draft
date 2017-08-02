@@ -16,7 +16,6 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 # INITIALIZE API CLIENT
 api = tweepy.API(auth)
-
 # ISSUE REQUESTS
 #client_user = input("Enter your Twitter handle" +
 #    '\n'+"(enter the handle immediately after the '@', but do not include the '@'): ",)
@@ -33,7 +32,8 @@ for tweet in tweets:
         tweetxt.append(tweet.text)
 print("YOU CALLED",len(tweetxt),"Tweets")
 #input("What word are you counting: ",)
-
+for tweet in tweetxt:
+    print(tweet)
 #fname = "Twitter_Analysis/twit_feed.txt"
 
 #for tweet in tweets:
