@@ -26,14 +26,19 @@ endDate =   datetime.datetime(2017, 7, 31, 0, 0, 0)
 
 tweetxt=[]
 tweets = api.user_timeline(screen_name="Mr_DamienB", count=1000, includerts=False)
+###once testing done use the below format:
+##client_user = input("Enter client's Twitter ID: " + '\n',)
+##tweets = api.user_timeline(screen_name=client_user, count=1000, includerts=False)
+
 
 for tweet in tweets:
     if tweet.created_at < endDate and tweet.created_at > startDate:
         tweetxt.append(tweet.text)
-print("YOU CALLED",len(tweetxt),"Tweets")
+###print("YOU CALLED",len(tweetxt),"Tweets")
 #input("What word are you counting: ",)
 for tweet in tweetxt:
     print(tweet)
+print("THERE ARE IN TOTAL: ",len(tweetxt),"Tweets")
 #fname = "Twitter_Analysis/twit_feed.txt"
 
 #for tweet in tweets:

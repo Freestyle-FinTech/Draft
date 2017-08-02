@@ -1,3 +1,13 @@
+
+# coding: utf-8
+
+# In[ ]:
+
+
+
+
+# In[2]:
+
 #Final Version Test
 
 
@@ -8,6 +18,13 @@
 #Twitter Keys#
 
 
+#TWITTER_API_KEY = 'F29b8D6lDVJ1T6BNzXN5a9xcX'
+#TWITTER_API_SECRET = 'SxVsXszZ6fw5X48SvINQuXXTFqPVL3dH8JTcnEArr5H1SFMEmK'
+#TWITTER_ACCESS_TOKEN =  '890374586323398657-DWt985sWMhbeBq1T26jYUdfuMlk2TDc'
+#TWITTER_ACCESS_TOKEN_SECRET = '88d81mDuJSuGEqqkkX1FqbVxXIMFGwbi8TbMyTm7guha08'
+
+
+
 import os
 import tweepy
 import datetime
@@ -15,10 +32,13 @@ import time
 import csv
 
 
+
 consumer_key = os.environ["TWITTER_API_KEY"]
 consumer_secret = os.environ["TWITTER_API_SECRET"]
 access_token = os.environ["TWITTER_ACCESS_TOKEN"]
 access_token_secret = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+
+# In[3]:
 
 # AUTHENTICATE
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -33,27 +53,64 @@ endDate = datetime.datetime(2017, 7, 31, 0, 0, 0)
 #endDate = datetime.date.today()
 
 
+# In[20]:
+
 client_user = input("Enter your Twitter ID: " + '\n',)
 user = api.me() # get information about the currently authenticated user
-tweets = api.user_timeline(screen_name=client_user, includerts=False)
+#tweets = api.user_timeline(screen_name=client_user, includerts=False)
+tweets1 = api.user_timeline(screen_name=client_user, includerts=False)
 
 
-tweets = []
-for tweet in tweets:
+# In[21]:
+
+#client_user
+# api.user_timeline(screen_name=client_user, includerts=False)
+tweets1 = []
+for tweet in tweets1:
     if tweet.created_at < endDate and tweet.created_at > startDate:
         tweets.append(tweet.text)
-for tweet in tweets:
+for tweet in tweets1:
     print (tweet, "\n")
 
-#calltweets=[]
-#tweetxt=[]
+# In[12]:
+
+#tweets = []
 #for tweet in tweets:
-#    calltweets.append(tweet)
+#    if tweet.created_at < endDate and tweet.created_at > startDate:
+#        tweets.append(tweet.text)
 #for tweet in tweets:
-#    tweetxt.append(tweet.text)
-#print (len(calltweets))
-#for tweet in tweetxt:
 #    print (tweet, "\n")
+
+
+# In[24]:
+
+#tweets = []
+#for tweet in tweets1:
+#    if tweet.created_at < endDate and tweet.created_at > startDate:
+#        tweets.append([tweet.created_at,tweet.text])
+#for tweet in tweets:
+#    print (tweet, "\n")
+
+
+# In[17]:
+
+tweets
+
+
+# In[19]:
+
+calltweets=[]
+tweetxt=[]
+for tweet in tweets1:
+    calltweets.append(tweet)
+for tweet in tweets1:
+    tweetxt.append(tweet.text)
+    print (len(calltweets))
+for tweet in tweetxt:
+    print (tweet, "\n")
+
+
+# In[ ]:
 
 #tweets = []
 #for tweet in tweets:
@@ -69,10 +126,7 @@ for tweet in tweets:
 #done = False; #Must be false
 
 
-
-
-
-
+# In[ ]:
 
 # ISSUE REQUESTS
 ##tweets = api.user_timeline() # get a list of tweets posted by the currently authenticated user
