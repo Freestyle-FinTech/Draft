@@ -37,7 +37,7 @@ for tweet in tweets:
 ###print("YOU CALLED",len(tweetxt),"Tweets")
 #input("What word are you counting: ",)
 for tweet in tweetxt:
-    print(tweet)
+    print(tweet, "\n")
 print("THERE ARE IN TOTAL: ",len(tweetxt),"Tweets")
 #fname = "Twitter_Analysis/twit_feed.txt"
 
