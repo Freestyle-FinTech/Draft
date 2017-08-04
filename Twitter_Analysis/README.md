@@ -13,3 +13,6 @@ http://pythonforengineers.com/build-a-twitter-analytics-app-using-python/
 
 https://marcobonzanini.com/2015/03/17/mining-twitter-data-with-python-part-3-term-frequencies/
 
+robo_adv_and_sentiment [DRAFT] - this is the clean-up draft started to combine and
+  update the the tw_for_nl and sentiment_risk_tot files.
+  
