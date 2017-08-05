@@ -3,7 +3,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import Black_Litterman as bl
-#from IPython import embed
+from IPython import embed
 
 print("""
 Portfolio Recommendation
@@ -185,6 +185,8 @@ Horizon =years*week
 
 # PERFORM A DATABASE OPERATION
 ETF_Tickers=[]
+ETF_MktCap=[]
+ETF = []
 #ETFs=["id","Date","MINT","EMB","IAU","VCIT","MUB","SCHA","VEA","VYM","SCHH","SCHM","SCHX","VWO","VWO","FENY","VNQI","VTIP","VGLT","ITE"]
 with conn:
     with conn.cursor() as cursor:
@@ -194,9 +196,16 @@ with conn:
         #print("ticker")
 
         for row in cursor.fetchall():
-            print(row[0])
+#            print(row[0],row[8])
             ETF_Tickers.append(row[0])
-            print(ETF_Tickers)
+#            print(ETF_Tickers)
+            ETF_MktCap.append(row[8])
+#            print(ETF_MktCap)
+
+for id, txt in enumerate(ETF_Tickers):
+    ETF.append({"name": txt, "mkt_cap":ETF_MktCap[id]})
+#print(ETF)
+
 # # CLOSE DATABASE CONNECTION
 # #conn.close()
 #
@@ -208,70 +217,109 @@ end = str(date.today())
 response = data.DataReader(symbols, data_source, start, end)
 daily_closing_prices = response.ix["Close"] # ix() is a pandas DataFrame function
 #daily_closing_prices = daily_closing_prices[list(daily_closing_prices.columns[:8])]
-daily_closing_prices = daily_closing_prices[["MINT","EMB","IAU","VCIT","MUB","SCHA","VEA","VYM"]]
+tickers = ["MINT","EMB","IAU","VCIT","MUB","SCHA","VEA","VYM","SCHH","VWO","FENY","VTIP","VGLT","ITE"]
+daily_closing_prices = daily_closing_prices[tickers]
 daily_closing_prices.to_csv("portfolio.csv", sep=',')
 #print(daily_closing_prices)
 
 
 # Mean_Variance Theory
 ## Initialize some parameters
+def find_mkt(etf_nm,ETF):
+    for etf in ETF:
+        if etf["name"] == etf_nm: mkt = etf["mkt_cap"]
+    return mkt
+
+def del_nan(port_price):
+    port_price = np.asarray(port_price.T)
+    for row in port_price:
+        for id, value in enumerate(row):
+            if np.isnan(value)==True: row[id] = (row[id-1]+row[id+1])/2
+    return np.asmatrix(port_price).T
+
+def filter_ef(ef_risks,ef_returns,ef_weights):
+    r = []
+    s = []
+    w = []
+    for id,value in enumerate(ef_returns):
+        if value > 0:
+            r.append(ef_returns[id])
+            s.append(ef_risks[id])
+            if len(ef_weights) > 0: w.append(ef_weights[id])
+
+    ef_risks = s
+    ef_returns = r
+    ef_weights = w
+
+    return ef_risks, ef_returns, ef_weights
+
 rf = 0.02 #annualized risk-free rate
-fq_adj = 52 #weekly data. for daily data, set fq_adj = 252.
+fq_adj = 252 #weekly data. for daily data, set fq_adj = 252.
 
 score = risk_tolerance(age_adj, income_adj, invest_adj, q1, q2, q3)
 print("Your Risk Tolerance is: " + str(score))
-risk_aversion = 0.1/score
-#market_cap = [40,66,25,79,79]
-market_cap = [1,2,1,4,3,2,3,1]
+
+market_cap = []
+for i in tickers: market_cap.append(find_mkt(i,ETF))
 
 port_price = mf.read_prices("portfolio.csv")
+port_price = del_nan(port_price)
 #port_price = pandas.DataFrame(daily_closing_prices.values)
-print(port_price)
+#print(port_price)
 #print(type(port_price))
 
 returns = mf.get_return(port_price,return_type = "percentage") #or choose "log" as return_type
 returns = np.asmatrix(returns)
 
 port_risks, port_returns = mf.possible_portfolios(returns,1000,fq_adj)
-ef_risks, ef_returns, ef_weights = mf.efficient_frontier(returns,risk_aversion,fq_adj)
-max_sp, tangency_weight = mf.sharpe_ratio(returns,rf,fq_adj)
+
+ef_risks, ef_returns, ef_weights = mf.efficient_frontier(returns,fq_adj)
+
+ef_risks, ef_returns, ef_weights = filter_ef(ef_risks,ef_returns,ef_weights)
+port_risks, port_returns, []= filter_ef(port_risks, port_returns, [])
+
 
 bl_expect_return = bl.bl_expect_return(market_cap,returns,rf,fq_adj)
-print(bl_expect_return)
 bl_port_risks, bl_port_returns = bl.bl_possible_portfolios(bl_expect_return,returns,1000,fq_adj)
-bl_ef_risks, bl_ef_returns, bl_ef_weights = bl.bl_efficient_frontier(bl_expect_return,returns,risk_aversion,fq_adj)
-bl_max_sp, bl_tangency_weight = bl.sharpe_ratio(bl_expect_return,returns,rf,fq_adj)
+bl_ef_risks, bl_ef_returns, bl_ef_weights = bl.bl_efficient_frontier(bl_expect_return,returns,fq_adj)
+
+bl_ef_risks, bl_ef_returns, bl_ef_weights = filter_ef(bl_ef_risks,bl_ef_returns,bl_ef_weights)
+bl_port_risks, bl_port_returns, []= filter_ef(bl_port_risks, bl_port_returns, [])
+
 
 # Outputs
 
-print("Recommendations\n----------------------------------\nBlack-Litterman Adjusted Portfolio (Expect from Market)\n")
-print("Weights: ")
-bl_ef_weights = bl_ef_weights.tolist()[0]
-for i in range(len(bl_ef_weights)):
-    print("  +  Asset",i+1,": {}%".format(round(bl_ef_weights[i]*100,2)))
-print("Expected Return: {}%".format(round(bl_ef_returns[0]*100,2)))
-print("Expected Risk: ",round(bl_ef_risks[0],2))
-## Tangency Portfolio Sharpe Ratio
-print("Expected Sharpe Ratio: ",round(bl_max_sp,4))
+position1 = int((score-2.5)/(11-2.5)*len(bl_ef_weights))
+position2 = int((score-2.5)/(11-2.5)*len(ef_weights))
 
-print("\n----------------------------------\nMean-Variance Portfolio (Expect from History)\n")
+print("Recommendations\n----------------------------------\nMarket Implied Portfolio\n")
+print("Weights: ")
+for i in range(len(bl_ef_weights[position1])):
+    print("  +  ",tickers[i],": {}%".format(round(bl_ef_weights[position1][i]*100,2)))
+print("Expected Return: {}%".format(round(bl_ef_returns[position1]*100,2)))
+print("Expected Risk: ",round(bl_ef_risks[position1],2))
+
+print("\n----------------------------------\nHistory Based Portfolio\n")
 ## Tangency Portfolio Weights
 print("Weights: ")
-ef_weights = ef_weights.tolist()[0]
-for i in range(len(ef_weights)):
-    print("  +  Asset",i+1,": {}%".format(round(ef_weights[i]*100,2)))
+#ef_weights = ef_weights.tolist()[0]
+for i in range(len(ef_weights[position2])):
+    print("  +  ",tickers[i],": {}%".format(round(ef_weights[position2][i]*100,2)))
 ##print(ef_weights)
-print("Expected Return: {}%".format(round(ef_returns[0]*100,2)))
-print("Expected Risk: ",round(ef_risks[0],2))
-## Tangency Portfolio Sharpe Ratio
-print("Mean-Variance Portfolio Expected Sharpe Ratio: ",round(max_sp,4))
+print("Expected Return: {}%".format(round(ef_returns[position2]*100,2)))
+print("Expected Risk: ",round(ef_risks[position2],2))
 ## possible portfolios: risks and returns
-plt.plot(bl_port_risks, bl_port_returns, 'ro')
+
+plt.plot(bl_port_risks,bl_port_returns, 'ro')
 ## efficient frontier: risks and returns
-plt.plot(bl_ef_risks,bl_ef_returns,'bo')
-##plt.plot([0,ef_risks[tangency_index]],[rf,ef_returns[tangency_index]],'y--o')
-plt.title('Black Litterman Adjusted Portfolio')
+line1, = plt.plot(bl_ef_risks,bl_ef_returns,'b-',label='Market Implied Assumption')
+plt.plot(bl_ef_risks[position1],bl_ef_returns[position1],'bo')
+line2, = plt.plot(ef_risks,ef_returns,'y-',label='History Based Assumption')
+plt.plot(ef_risks[position2],ef_returns[position2],'yo')
+first_legend = plt.legend(handles=[line1], loc=1)
+ax = plt.gca().add_artist(first_legend)
+plt.legend(handles=[line2], loc=4)
+plt.title('Efficient Frontiers')
 plt.ylabel('Annualized Expected Return')
 plt.xlabel('Standard Deviation as Risk')
 plt.show()
-plt.close()
