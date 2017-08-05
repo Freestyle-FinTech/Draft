@@ -46,7 +46,7 @@ else:
 #print(age_adj)
 
 #def interface3():
-print("What is your annul income (berofe tax): ")
+print("What is your annual income (berofe tax): ")
 while True:
     income = input()
     try:
@@ -105,7 +105,7 @@ a. Single income, no dependents
 b. Single income, at least one dependent
 c. Dual income, no dependents
 d. Dual income, at least one dependent
-e. Retired or financially Independent
+e. Retired or financially independent
 """)
 while True:
     household = input("Which of the above describes your household? (Enter the letter only): ")
@@ -144,8 +144,8 @@ else:
     q3 = 3
 
 answers = [ ]
-answer = "draft/answers.csv"
-with open(answer, "r") as a:
+answer = "Twitter_Analysis/answers.csv"
+with open(answer, "r", encoding="utf8") as a:
     reader = csv.DictReader(a)
     for row in reader:
         answers.append(row)
@@ -153,8 +153,8 @@ with open(answer, "r") as a:
 new_answer = {"username": username,"age": age,"income": income,"investment": invest,"preference": preference,"household": household,"action": action}
 answers.append(new_answer)
 
-answer = "draft/answers.csv"
-with open(answer,"w") as a:
+answer = "Twitter_Analysis/answers.csv"
+with open(answer,"w", encoding="utf8") as a:
     writer = csv.DictWriter(a, fieldnames=["username","age","income","investment","preference","household","action"])
     writer.writeheader()
     for a in answers:
@@ -166,7 +166,7 @@ risk_score = risk_tolerance(age_adj, income_adj, invest_adj, q1, q2, q3)
 
 #print("Your Risk Tolerance is: " + str(risk_score) + " !")
 
-df = pd.read_csv('draft/answers.csv')
+df = pd.read_csv('Twitter_Analysis/answers.csv')
 #engine = create_engine('postgresql://username:password@localhost:5432/dbname')
 engine = create_engine('postgresql://vnqyscaajfifeg:6ee97dda964f794ee664a52ab7cd6ed367d8480ba496ebcc0647b3226c16a370@ec2-54-163-254-143.compute-1.amazonaws.com:5432/d7t1alfnvnuu63')
 df.to_sql("survey", engine)

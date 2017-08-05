@@ -4,12 +4,12 @@ import numpy
 
 tweets = [ ]
 
-tweets_pub_path = "draft/hard_score_public.csv"
+#tweets_pub_path = "draft/hard_score_public.csv"
 
-with open(tweets_pub_path, "r") as t:
-    reader = csv.reader(t)
-    for row in reader:
-        tweets.append(str(row))
+#with open(tweets_pub_path, "r") as t:
+#    reader = csv.reader(t)
+#    for row in reader:
+#        tweets.append(str(row))
 
 #print(tweets)
 
@@ -20,7 +20,7 @@ for tweet in tweets:
     score = sa.polarity_scores(tweet)
     scores.append(score)
 
-write_to_sentiment = "draft/sentiment_score.csv"
+write_to_sentiment = "Twitter_Analysis/sentiment_score.csv"
 with open(write_to_sentiment,"w") as write_sentiment:
     writer = csv.DictWriter(write_sentiment, fieldnames=["neg","neu","pos","compound"])
     writer.writeheader()
