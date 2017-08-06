@@ -222,11 +222,21 @@ def portfolio():
     plt.plot(bl_ef_risks[position1],bl_ef_returns[position1],'bo')
     first_legend = plt.legend(handles=[line1], loc=1)
     ax = plt.gca().add_artist(first_legend)
-    plt.title('Efficient Frontiers')
+    plt.title('Efficient Frontier')
     plt.ylabel('Annualized Expected Return')
     plt.xlabel('Standard Deviation as Risk')
-    pylab.savefig('/Users/cynthia/Desktop/foo.png')
+    pylab.savefig('/Users/cynthia/Desktop/efficient_frontier.png')
+    plt.close()
 
+
+    y_pos = np.arange(len(tickers))
+    plt.bar(y_pos, weights_bl, align='center', alpha=0.5)
+    plt.xticks(y_pos, tickers, fontsize = 5)
+    plt.ylabel('Percentage')
+    plt.title('Portfolio Weights')
+    pylab.savefig('/Users/cynthia/Desktop/weights.png')
+    plt.close()
+    
     return weights_bl, return_bl, risk_bl
 
 if __name__ == "__main__":
